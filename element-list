@@ -3,6 +3,7 @@ vaultWeb.config
 vaultWeb.config.websocket
 vaultWeb.controllers
 vaultWeb.dtos
+vaultWeb.dtos.dashboard
 vaultWeb.dtos.user
 vaultWeb.exceptions
 vaultWeb.exceptions.notfound
