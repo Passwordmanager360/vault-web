@@ -13,5 +13,6 @@ vaultWeb.repositories
 vaultWeb.security
 vaultWeb.security.annotations
 vaultWeb.security.aspects
+vaultWeb.security.exception
 vaultWeb.services
 vaultWeb.services.auth
