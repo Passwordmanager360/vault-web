@@ -35,7 +35,7 @@ export class PrivateChatDialogComponent
   newMessage = '';
 
   @ViewChild('messageContainer') messageContainer!: ElementRef<HTMLDivElement>;
-  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
   private privateMessageSub!: Subscription;
 
   private shouldScroll = false;
