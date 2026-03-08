@@ -41,6 +41,7 @@ export class PrivateChatDialogComponent
   private shouldScroll = false;
   isSearchOpen = false;
   searchQuery = '';
+  filteredMessages: ChatMessageDto[] = [];
 
   constructor(
     private wsService: WebSocketService,
@@ -51,6 +52,7 @@ export class PrivateChatDialogComponent
     this.chatService.getMessages(this.privateChatId).subscribe({
       next: (msgs) => {
         this.messages = msgs;
+        this.applySearch();
         this.shouldScroll = true;
       },
       error: () => {
@@ -63,7 +65,8 @@ export class PrivateChatDialogComponent
       .subscribe((msg) => {
         if (msg.privateChatId === this.privateChatId) {
           this.messages.push(msg);
-          this.shouldScroll = true;
+          this.applySearch();
+          this.shouldScroll = !this.searchQuery.trim();
         }
       });
   }
@@ -113,20 +116,20 @@ export class PrivateChatDialogComponent
       setTimeout(() => this.searchInput?.nativeElement.focus(), 0);
     } else {
       this.searchQuery = '';
+      this.applySearch(); // reset filteredMessages to all messages
     }
   }
 
-  get filteredMessages(): ChatMessageDto[] {
-    const query = this.searchQuery.trim();
-    if (!query) return this.messages;
+  applySearch(): void {
+    const query = this.searchQuery.trim().toLowerCase();
 
-    try {
-      const regex = new RegExp(query, 'i');
-      return this.messages.filter((msg) => regex.test(msg.content));
-    } catch {
-      return this.messages.filter((msg) =>
-        msg.content.toLowerCase().includes(query.toLowerCase()),
-      );
+    if (!query) {
+      this.filteredMessages = this.messages;
+      return;
     }
+
+    this.filteredMessages = this.messages.filter((msg) =>
+      msg.content.toLowerCase().includes(query),
+    );
   }
 }
