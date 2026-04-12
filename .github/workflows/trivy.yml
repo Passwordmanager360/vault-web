@@ -17,6 +17,7 @@ on:
     
 permissions:
   contents: read
+  security-events: write
 
 jobs:
   build:
@@ -35,7 +36,9 @@ jobs:
         with:
           scan-type: 'repo'
           scan-ref: '.' # Scan the current directory
-          format: 'table'
+          #format: 'table'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
           #exit-code: '1' # Fail the build if vulnerabilities are found
           severity: 'CRITICAL,HIGH'
 
